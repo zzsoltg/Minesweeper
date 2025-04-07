@@ -170,7 +170,8 @@ def check_win_condition(field, uncovered):
 
     Paraméterek:
         field (list): A játéktáblát reprezentáló kétdimenziós lista.
-        uncovered (list): Egy kétdimenziós lista, mely logikai értékekkel jelzi, hogy mely cellák lettek felfedve.
+        uncovered (list): uncovered (list): Egy kétdimenziós lista, mely U, R, F betűkkel jelzi,
+        hogy a mező milyen állapotban van.
 
     Visszatérési érték:
         bool: Igaz, ha minden biztonságos (nem-akna) cella felfedésre került, egyébként Hamis.
