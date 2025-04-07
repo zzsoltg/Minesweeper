@@ -197,7 +197,7 @@ def reveal_all(uncovered):
     """
     for i in range(len(uncovered)):
         for j in range(len(uncovered[0])):
-            uncovered[i][j] = True
+            uncovered[i][j] = "R"
 
 
 def game_loop(numbered_field):
