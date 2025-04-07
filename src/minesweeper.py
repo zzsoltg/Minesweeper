@@ -157,7 +157,11 @@ def get_user_move(rows, cols):
         if not (0 <= row < rows and 0 <= col < cols):
             print("A megadott koordináták kívül esnek a tábla határain. Próbáld újra.")
             continue
-        return row, col
+        if flagging == 1:
+            return 1, row, col
+        elif flagging == 2:
+            return 2, row, col
+        return 0, row, col
 
 
 def check_win_condition(field, uncovered):
