@@ -214,7 +214,7 @@ def game_loop(numbered_field):
     rows = len(numbered_field)
     columns = len(numbered_field[0])
     # Létrehozunk egy rácsot, amely jelzi, mely cellák lettek felfedve (kezdetben minden hamis)
-    uncovered = [[False for _ in range(columns)] for _ in range(rows)]
+    uncovered = [["U" for _ in range(columns)] for _ in range(rows)]
 
     while True:
         display_uncovered_field(numbered_field, uncovered)
