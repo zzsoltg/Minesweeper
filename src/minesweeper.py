@@ -252,7 +252,7 @@ def game_loop(numbered_field):
                 continue
 
         # Felfedjük a kiválasztott cellát
-        uncovered[row][col] = True
+        uncovered[row][col] = "R"
 
         # Ellenőrizzük, hogy a felfedett cella akna-e
         if numbered_field[row][col] == "X":
