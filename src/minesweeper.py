@@ -100,7 +100,7 @@ def display_uncovered_field(field, uncovered):
 
     Paraméterek:
         field (list): A játéktáblát reprezentáló kétdimenziós lista (aknák és számok).
-        uncovered (list): Egy kétdimenziós lista, mely logikai értékekkel jelzi, hogy mely cellák lettek felfedve.
+        uncovered (list): Egy kétdimenziós lista, mely U, R, F betűkkel jelzi, hogy a mező milyen állapotban van.
     """
     header = "   " + "  ".join(str(j) for j in range(len(field[0])))
     print(header)
