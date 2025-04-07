@@ -218,7 +218,7 @@ def game_loop(numbered_field):
 
     while True:
         display_uncovered_field(numbered_field, uncovered)
-        row, col = get_user_move(rows, columns)
+        flagging, row, col = get_user_move(rows, columns)
 
         if uncovered[row][col]:
             print("Ez a cella már fel van fedve. Válassz egy másikat!")
