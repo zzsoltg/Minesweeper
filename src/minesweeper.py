@@ -129,7 +129,8 @@ def get_user_move(rows, cols):
         cols (int): A játéktábla oszlopainak száma.
 
     Visszatérési érték:
-        tuple: Egy (sor, oszlop) értéket tartalmazó tuple, amely a felhasználó által választott koordinátákat jelzi.
+        tuple: Egy (flag, sor, oszlop) értéket tartalmazó tuple, amely a felhasználó által választott
+        koordinátákat jelzi, illetve, hogy történt-e flagging művelet.
     """
     while True:
         user_input = input("Add meg a felfedendő cella sorát és oszlopát (szóközzel elválasztva): ")
