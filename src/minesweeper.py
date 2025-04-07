@@ -146,7 +146,7 @@ def get_user_move(rows, cols):
             user_input = input("Add meg a flaggelni kívánt cella sorát és oszlopát (szóközzel elválasztva): ")
         parts = user_input.split()
         if len(parts) != 2:
-            print("Kérlek, pontosan két számot adj meg, szóközzel elválasztva.")
+            print("Kérlek, pontosan két számot adj meg, szóközzel elválasztva, vagy egy megfelelő parancsot!")
             continue
         try:
             row = int(parts[0])
