@@ -224,6 +224,33 @@ def game_loop(numbered_field):
             print("Ez a cella már fel van fedve. Válassz egy másikat!")
             continue
 
+        if flagging == 1:
+            if uncovered[row][col] == "F":
+                print("Ez a cella már flaggelve van. Válassz másikat!")
+                continue
+            uncovered[row][col] = "F"
+            continue
+
+        if flagging == 2:
+            if uncovered[row][col] != "F":
+                print("Ez a cella nincs flaggelve. Válassz másikat!")
+                continue
+            else:
+                uncovered[row][col] = "U"
+                continue
+
+        if uncovered[row][col] == "F":
+            while True:
+                sure = input("Ezt a mezőt korábban flaggelted. Biztosan fel akarod fedni? I/N ")
+                if sure == "I":
+                    break
+                elif sure == "N":
+                    break
+                else:
+                    print("Kérlek I-vel vagy N-nel válaszolj!")
+            if sure == "N":
+                continue
+
         # Felfedjük a kiválasztott cellát
         uncovered[row][col] = True
 
