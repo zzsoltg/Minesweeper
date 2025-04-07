@@ -94,8 +94,9 @@ def display_uncovered_field(field, uncovered):
     """
     Megjeleníti a játéktáblát úgy, hogy csak a felfedett cellák láthatóak.
 
-    Minden cella esetében, ha az 'uncovered' rács szerint felfedett,
-    annak értéke jelenik meg; ha nem, akkor üres helyet mutat.
+    Minden cella esetében, ha az 'uncovered' rács szerint felfedett (R),
+    annak értéke jelenik meg; ha flaggelt (F), akkor F,
+    ha nem felfedett (U), akkor üres helyet mutat.
 
     Paraméterek:
         field (list): A játéktáblát reprezentáló kétdimenziós lista (aknák és számok).
