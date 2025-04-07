@@ -94,20 +94,23 @@ def display_uncovered_field(field, uncovered):
     """
     Megjeleníti a játéktáblát úgy, hogy csak a felfedett cellák láthatóak.
 
-    Minden cella esetében, ha az 'uncovered' rács szerint felfedett,
-    annak értéke jelenik meg; ha nem, akkor üres helyet mutat.
+    Minden cella esetében, ha az 'uncovered' rács szerint felfedett (R),
+    annak értéke jelenik meg; ha flaggelt (F), akkor F,
+    ha nem felfedett (U), akkor üres helyet mutat.
 
     Paraméterek:
         field (list): A játéktáblát reprezentáló kétdimenziós lista (aknák és számok).
-        uncovered (list): Egy kétdimenziós lista, mely logikai értékekkel jelzi, hogy mely cellák lettek felfedve.
+        uncovered (list): Egy kétdimenziós lista, mely U, R, F betűkkel jelzi, hogy a mező milyen állapotban van.
     """
     header = "   " + "  ".join(str(j) for j in range(len(field[0])))
     print(header)
     for i in range(len(field)):
         row_str = str(i).ljust(3)
         for j in range(len(field[0])):
-            if uncovered[i][j]:
+            if uncovered[i][j] == "R":
                 row_str += field[i][j].ljust(3)
+            elif uncovered[i][j] == "F":
+                row_str += "F".ljust(3)
             else:
                 row_str += "   "  # Három szóköz a fedett cellák helyére
         print(row_str)
@@ -116,6 +119,7 @@ def display_uncovered_field(field, uncovered):
 def get_user_move(rows, cols):
     """
     Kéri a felhasználótól egy érvényes lépés megadását (sor, oszlop), amely a tábla határain belül van.
+    A flag parancs megadásával van lehetőség flagek megadására.
 
     A függvény kezeli a hibás bemeneteket, és biztosítja, hogy a megadott koordináták két egész szám,
     a megfelelő tartományban legyenek.
@@ -125,13 +129,24 @@ def get_user_move(rows, cols):
         cols (int): A játéktábla oszlopainak száma.
 
     Visszatérési érték:
-        tuple: Egy (sor, oszlop) értéket tartalmazó tuple, amely a felhasználó által választott koordinátákat jelzi.
+        tuple: Egy (flag, sor, oszlop) értéket tartalmazó tuple, amely a felhasználó által választott
+        koordinátákat jelzi, illetve, hogy történt-e flagging művelet.
     """
     while True:
-        user_input = input("Add meg a felfedendő cella sorát és oszlopát (szóközzel elválasztva): ")
+        user_input = input("Add meg a felfedendő cella sorát és oszlopát (szóközzel elválasztva) vagy a flag parancsot: ")
+        flagging = 0
+        if user_input == "flag":
+            while True:
+                flagging = input("Add meg, hogy új flaget szeretnél hozzáadni (1) vagy eltávolítani egy meglévőt (2)! ")
+                if flagging != "1" and flagging != "2":
+                    print("Kérlek 1-essel vagy 2-essel válaszolj!")
+                    continue
+                flagging = int(flagging)
+                break
+            user_input = input("Add meg a flaggelni kívánt cella sorát és oszlopát (szóközzel elválasztva): ")
         parts = user_input.split()
         if len(parts) != 2:
-            print("Kérlek, pontosan két számot adj meg, szóközzel elválasztva.")
+            print("Kérlek, pontosan két számot adj meg, szóközzel elválasztva, vagy egy megfelelő parancsot!")
             continue
         try:
             row = int(parts[0])
@@ -142,7 +157,11 @@ def get_user_move(rows, cols):
         if not (0 <= row < rows and 0 <= col < cols):
             print("A megadott koordináták kívül esnek a tábla határain. Próbáld újra.")
             continue
-        return row, col
+        if flagging == 1:
+            return 1, row, col
+        elif flagging == 2:
+            return 2, row, col
+        return 0, row, col
 
 
 def check_win_condition(field, uncovered):
@@ -151,7 +170,8 @@ def check_win_condition(field, uncovered):
 
     Paraméterek:
         field (list): A játéktáblát reprezentáló kétdimenziós lista.
-        uncovered (list): Egy kétdimenziós lista, mely logikai értékekkel jelzi, hogy mely cellák lettek felfedve.
+        uncovered (list): uncovered (list): Egy kétdimenziós lista, mely U, R, F betűkkel jelzi,
+        hogy a mező milyen állapotban van.
 
     Visszatérési érték:
         bool: Igaz, ha minden biztonságos (nem-akna) cella felfedésre került, egyébként Hamis.
@@ -160,7 +180,7 @@ def check_win_condition(field, uncovered):
     cols = len(field[0])
     for i in range(rows):
         for j in range(cols):
-            if field[i][j] != "X" and not uncovered[i][j]:
+            if field[i][j] != "X" and (uncovered[i][j] == "U" or uncovered[i][j] != "F"):
                 return False
     return True
 
@@ -172,11 +192,12 @@ def reveal_all(uncovered):
     Ez a függvény módosítja az 'uncovered' rácsot úgy, hogy minden cella felfedettnek legyen jelölve.
 
     Paraméter:
-        uncovered (list): Egy kétdimenziós lista, mely logikai értékekkel jelzi, hogy mely cellák lettek felfedve.
+        uncovered (list): uncovered (list): Egy kétdimenziós lista, mely U, R, F betűkkel jelzi,
+        hogy a mező milyen állapotban van.
     """
     for i in range(len(uncovered)):
         for j in range(len(uncovered[0])):
-            uncovered[i][j] = True
+            uncovered[i][j] = "R"
 
 
 def game_loop(numbered_field):
@@ -193,18 +214,45 @@ def game_loop(numbered_field):
     rows = len(numbered_field)
     columns = len(numbered_field[0])
     # Létrehozunk egy rácsot, amely jelzi, mely cellák lettek felfedve (kezdetben minden hamis)
-    uncovered = [[False for _ in range(columns)] for _ in range(rows)]
+    uncovered = [["U" for _ in range(columns)] for _ in range(rows)]
 
     while True:
         display_uncovered_field(numbered_field, uncovered)
-        row, col = get_user_move(rows, columns)
+        flagging, row, col = get_user_move(rows, columns)
 
-        if uncovered[row][col]:
+        if uncovered[row][col] == "R":
             print("Ez a cella már fel van fedve. Válassz egy másikat!")
             continue
 
+        if flagging == 1:
+            if uncovered[row][col] == "F":
+                print("Ez a cella már flaggelve van. Válassz másikat!")
+                continue
+            uncovered[row][col] = "F"
+            continue
+
+        if flagging == 2:
+            if uncovered[row][col] != "F":
+                print("Ez a cella nincs flaggelve. Válassz másikat!")
+                continue
+            else:
+                uncovered[row][col] = "U"
+                continue
+
+        if uncovered[row][col] == "F":
+            while True:
+                sure = input("Ezt a mezőt korábban flaggelted. Biztosan fel akarod fedni? I/N ")
+                if sure == "I":
+                    break
+                elif sure == "N":
+                    break
+                else:
+                    print("Kérlek I-vel vagy N-nel válaszolj!")
+            if sure == "N":
+                continue
+
         # Felfedjük a kiválasztott cellát
-        uncovered[row][col] = True
+        uncovered[row][col] = "R"
 
         # Ellenőrizzük, hogy a felfedett cella akna-e
         if numbered_field[row][col] == "X":
