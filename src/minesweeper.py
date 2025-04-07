@@ -133,7 +133,17 @@ def get_user_move(rows, cols):
         koordinátákat jelzi, illetve, hogy történt-e flagging művelet.
     """
     while True:
-        user_input = input("Add meg a felfedendő cella sorát és oszlopát (szóközzel elválasztva): ")
+        user_input = input("Add meg a felfedendő cella sorát és oszlopát (szóközzel elválasztva) vagy a flag parancsot: ")
+        flagging = 0
+        if user_input == "flag":
+            while True:
+                flagging = input("Add meg, hogy új flaget szeretnél hozzáadni (1) vagy eltávolítani egy meglévőt (2)! ")
+                if flagging != "1" and flagging != "2":
+                    print("Kérlek 1-essel vagy 2-essel válaszolj!")
+                    continue
+                flagging = int(flagging)
+                break
+            user_input = input("Add meg a flaggelni kívánt cella sorát és oszlopát (szóközzel elválasztva): ")
         parts = user_input.split()
         if len(parts) != 2:
             print("Kérlek, pontosan két számot adj meg, szóközzel elválasztva.")
