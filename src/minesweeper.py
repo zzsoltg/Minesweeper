@@ -107,7 +107,7 @@ def display_uncovered_field(field, uncovered):
     for i in range(len(field)):
         row_str = str(i).ljust(3)
         for j in range(len(field[0])):
-            if uncovered[i][j]:
+            if uncovered[i][j] == "R":
                 row_str += field[i][j].ljust(3)
             else:
                 row_str += "   "  # Három szóköz a fedett cellák helyére
