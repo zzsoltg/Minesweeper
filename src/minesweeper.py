@@ -192,7 +192,8 @@ def reveal_all(uncovered):
     Ez a függvény módosítja az 'uncovered' rácsot úgy, hogy minden cella felfedettnek legyen jelölve.
 
     Paraméter:
-        uncovered (list): Egy kétdimenziós lista, mely logikai értékekkel jelzi, hogy mely cellák lettek felfedve.
+        uncovered (list): uncovered (list): Egy kétdimenziós lista, mely U, R, F betűkkel jelzi,
+        hogy a mező milyen állapotban van.
     """
     for i in range(len(uncovered)):
         for j in range(len(uncovered[0])):
