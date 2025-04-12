@@ -1,4 +1,5 @@
 import random
+import copy
 
 
 def create_playing_field():
@@ -120,6 +121,7 @@ def get_user_move(rows, cols):
     """
     Kéri a felhasználótól egy érvényes lépés megadását (sor, oszlop), amely a tábla határain belül van.
     A flag parancs megadásával van lehetőség flagek megadására.
+    Az undo parancs megadásával lehetőség van az utolsó lépés visszavonására
 
     A függvény kezeli a hibás bemeneteket, és biztosítja, hogy a megadott koordináták két egész szám,
     a megfelelő tartományban legyenek.
@@ -130,11 +132,14 @@ def get_user_move(rows, cols):
 
     Visszatérési érték:
         tuple: Egy (flag, sor, oszlop) értéket tartalmazó tuple, amely a felhasználó által választott
-        koordinátákat jelzi, illetve, hogy történt-e flagging művelet.
+        koordinátákat jelzi, illetve, hogy történt-e flagging vagy undo művelet.
     """
     while True:
-        user_input = input("Add meg a felfedendő cella sorát és oszlopát (szóközzel elválasztva) vagy a flag parancsot: ")
+        print("Parancsok: flag - flaggelés; undo - visszavonás")
+        user_input = input("Add meg a felfedendő cella sorát és oszlopát (szóközzel elválasztva) vagy egy parancsot: ")
         flagging = 0
+        if user_input == "undo":
+            return -1, -1, -1
         if user_input == "flag":
             while True:
                 flagging = input("Add meg, hogy új flaget szeretnél hozzáadni (1) vagy eltávolítani egy meglévőt (2)! ")
@@ -215,10 +220,15 @@ def game_loop(numbered_field):
     columns = len(numbered_field[0])
     # Létrehozunk egy rácsot, amely jelzi, mely cellák lettek felfedve (kezdetben minden hamis)
     uncovered = [["U" for _ in range(columns)] for _ in range(rows)]
+    history = copy.deepcopy(uncovered)
 
     while True:
         display_uncovered_field(numbered_field, uncovered)
         flagging, row, col = get_user_move(rows, columns)
+
+        if flagging == -1:
+            uncovered = copy.deepcopy(history)
+            continue
 
         if uncovered[row][col] == "R":
             print("Ez a cella már fel van fedve. Válassz egy másikat!")
@@ -228,6 +238,7 @@ def game_loop(numbered_field):
             if uncovered[row][col] == "F":
                 print("Ez a cella már flaggelve van. Válassz másikat!")
                 continue
+            history = copy.deepcopy(uncovered)
             uncovered[row][col] = "F"
             continue
 
@@ -236,6 +247,7 @@ def game_loop(numbered_field):
                 print("Ez a cella nincs flaggelve. Válassz másikat!")
                 continue
             else:
+                history = copy.deepcopy(uncovered)
                 uncovered[row][col] = "U"
                 continue
 
@@ -252,6 +264,7 @@ def game_loop(numbered_field):
                 continue
 
         # Felfedjük a kiválasztott cellát
+        history = copy.deepcopy(uncovered)
         uncovered[row][col] = "R"
 
         # Ellenőrizzük, hogy a felfedett cella akna-e
