@@ -135,7 +135,8 @@ def get_user_move(rows, cols):
         koordinátákat jelzi, illetve, hogy történt-e flagging vagy undo művelet.
     """
     while True:
-        user_input = input("Add meg a felfedendő cella sorát és oszlopát (szóközzel elválasztva) vagy a flag parancsot: ")
+        print("Parancsok: flag - flaggelés; undo - visszavonás")
+        user_input = input("Add meg a felfedendő cella sorát és oszlopát (szóközzel elválasztva) vagy egy parancsot: ")
         flagging = 0
         if user_input == "flag":
             while True:
