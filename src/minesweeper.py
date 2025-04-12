@@ -138,6 +138,8 @@ def get_user_move(rows, cols):
         print("Parancsok: flag - flaggelés; undo - visszavonás")
         user_input = input("Add meg a felfedendő cella sorát és oszlopát (szóközzel elválasztva) vagy egy parancsot: ")
         flagging = 0
+        if user_input == "undo":
+            return -1, -1, -1
         if user_input == "flag":
             while True:
                 flagging = input("Add meg, hogy új flaget szeretnél hozzáadni (1) vagy eltávolítani egy meglévőt (2)! ")
