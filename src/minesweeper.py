@@ -1,4 +1,5 @@
 import random
+import copy
 
 
 def create_playing_field():
