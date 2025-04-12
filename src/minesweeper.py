@@ -264,6 +264,7 @@ def game_loop(numbered_field):
                 continue
 
         # Felfedjük a kiválasztott cellát
+        history = copy.deepcopy(uncovered)
         uncovered[row][col] = "R"
 
         # Ellenőrizzük, hogy a felfedett cella akna-e
