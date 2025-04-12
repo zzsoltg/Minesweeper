@@ -121,6 +121,7 @@ def get_user_move(rows, cols):
     """
     Kéri a felhasználótól egy érvényes lépés megadását (sor, oszlop), amely a tábla határain belül van.
     A flag parancs megadásával van lehetőség flagek megadására.
+    Az undo parancs megadásával lehetőség van az utolsó lépés visszavonására
 
     A függvény kezeli a hibás bemeneteket, és biztosítja, hogy a megadott koordináták két egész szám,
     a megfelelő tartományban legyenek.
