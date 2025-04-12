@@ -247,6 +247,7 @@ def game_loop(numbered_field):
                 print("Ez a cella nincs flaggelve. Válassz másikat!")
                 continue
             else:
+                history = copy.deepcopy(uncovered)
                 uncovered[row][col] = "U"
                 continue
 
