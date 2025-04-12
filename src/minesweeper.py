@@ -132,7 +132,7 @@ def get_user_move(rows, cols):
 
     Visszatérési érték:
         tuple: Egy (flag, sor, oszlop) értéket tartalmazó tuple, amely a felhasználó által választott
-        koordinátákat jelzi, illetve, hogy történt-e flagging művelet.
+        koordinátákat jelzi, illetve, hogy történt-e flagging vagy undo művelet.
     """
     while True:
         user_input = input("Add meg a felfedendő cella sorát és oszlopát (szóközzel elválasztva) vagy a flag parancsot: ")
