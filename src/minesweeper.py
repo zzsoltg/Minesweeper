@@ -185,7 +185,7 @@ def check_win_condition(field, uncovered):
     cols = len(field[0])
     for i in range(rows):
         for j in range(cols):
-            if field[i][j] != "X" and (uncovered[i][j] == "U" or uncovered[i][j] != "F"):
+            if field[i][j] != "X" and uncovered[i][j] != "R":
                 return False
     return True
 
