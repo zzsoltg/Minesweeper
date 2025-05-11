@@ -1,0 +1,107 @@
+stages:
+  - feature-1
+  - feature-2
+  
+feautre-1_elso:
+  stage: feature-1
+  script:
+    - pip install pytest
+    - pytest tests/test_minesweeper_flagging.py::test_display_uncovered_field | tee logs/display_uncovered_field.log
+  tags:
+    - test
+  artifacts:
+    paths:
+      - logs/display_uncovered_field.log
+    expire_in: 2 weeks
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+
+feature-1_masodik:
+  stage: feature-1
+  script:
+    - pip install pytest
+    - pytest tests/test_minesweeper_flagging.py::test_flag_addition
+  tags:
+    - test
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    
+feature-1_harmadik:
+  stage: feature-1
+  script:
+    - pip install pytest
+    - pytest tests/test_minesweeper_flagging.py::test_flag_removal
+  tags:
+    - test
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    
+feature-1_negyedik:
+  stage: feature-1
+  script:
+    - pip install pytest
+    - pytest tests/test_minesweeper_flagging.py::test_flag_invalid_then_valid
+  tags:
+    - test
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    
+feature-1_otodik:
+  stage: feature-1
+  script:
+    - pip install pytest
+    - pytest tests/test_minesweeper_flagging.py::test_check_win_condition_false
+  tags:
+    - test
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    
+feature-1_hatodik:
+  stage: feature-1
+  script:
+    - pip install pytest
+    - pytest tests/test_minesweeper_flagging.py::test_check_win_condition_true
+  tags:
+    - test
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    
+feature-1_hetedik:
+  stage: feature-1
+  script:
+    - pip install pytest
+    - pytest tests/test_minesweeper_flagging.py::test_reveal_all
+  tags:
+    - test
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    
+feature-2_elso:
+  stage: feature-2
+  script:
+    - pip install pytest
+    - pytest tests/test_minesweeper_undo.py::test_get_user_move
+  tags:
+    - test
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    
+feature-2_masodik:
+  stage: feature-2
+  script:
+    - pip install pytest
+    - pytest tests/test_minesweeper_undo.py::test_get_user_move_undo_after_invalid_input
+  tags:
+    - test
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    
+feature-2_harmadik:
+  stage: feature-2
+  script:
+    - pip install pytest
+    - pytest tests/test_minesweeper_undo.py::test_game_loop_undo
+  tags:
+    - test
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
