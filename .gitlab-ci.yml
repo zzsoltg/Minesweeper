@@ -6,6 +6,7 @@ feautre-1_elso:
   stage: feature-1
   script:
     - pip install pytest
+    - mkdir -p logs
     - pytest test/test_minesweeper_flagging.py::test_display_uncovered_field | tee logs/display_uncovered_field.log
   tags:
     - test
