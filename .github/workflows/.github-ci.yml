@@ -30,6 +30,7 @@ jobs:
           pytest test/test_minesweeper_flagging.py::test_display_uncovered_field | tee logs/display_uncovered_field.log
 
       - name: Upload display_uncovered_field log
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: display-uncovered-field-log
