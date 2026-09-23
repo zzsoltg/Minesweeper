@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   feature_1_elso:
     runs-on: ubuntu-latest
@@ -134,7 +137,7 @@ jobs:
       - name: Run test_reveal_all
         run: pytest test/test_minesweeper_flagging.py::test_reveal_all
 
-  feature_2_elso:
+  feature_1_done:
     runs-on: ubuntu-latest
     needs:
       - feature_1_elso
@@ -144,6 +147,14 @@ jobs:
       - feature_1_otodik
       - feature_1_hatodik
       - feature_1_hetedik
+    steps:
+      - name: Feature 1 complete
+        run: echo "All feature-1 tests passed."
+
+  feature_2_elso:
+    runs-on: ubuntu-latest
+    needs:
+      - feature_1_done
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -162,13 +173,7 @@ jobs:
   feature_2_masodik:
     runs-on: ubuntu-latest
     needs:
-      - feature_1_elso
-      - feature_1_masodik
-      - feature_1_harmadik
-      - feature_1_negyedik
-      - feature_1_otodik
-      - feature_1_hatodik
-      - feature_1_hetedik
+      - feature_1_done
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -187,13 +192,7 @@ jobs:
   feature_2_harmadik:
     runs-on: ubuntu-latest
     needs:
-      - feature_1_elso
-      - feature_1_masodik
-      - feature_1_harmadik
-      - feature_1_negyedik
-      - feature_1_otodik
-      - feature_1_hatodik
-      - feature_1_hetedik
+      - feature_1_done
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
