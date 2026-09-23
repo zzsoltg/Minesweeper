@@ -25,6 +25,7 @@ jobs:
 
       - name: Run test_display_uncovered_field
         run: |
+          set -o pipefail
           mkdir -p logs
           pytest test/test_minesweeper_flagging.py::test_display_uncovered_field | tee logs/display_uncovered_field.log
 
