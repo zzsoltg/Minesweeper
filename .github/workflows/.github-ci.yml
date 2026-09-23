@@ -1,108 +1,210 @@
-stages:
-  - feature-1
-  - feature-2
-  
-feautre-1_elso:
-  stage: feature-1
-  script:
-    - pip install pytest
-    - mkdir -p logs
-    - pytest test/test_minesweeper_flagging.py::test_display_uncovered_field | tee logs/display_uncovered_field.log
-  tags:
-    - test
-  artifacts:
-    paths:
-      - logs/display_uncovered_field.log
-    expire_in: 2 weeks
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
+name: GitHub CI
 
-feature-1_masodik:
-  stage: feature-1
-  script:
-    - pip install pytest
-    - pytest test/test_minesweeper_flagging.py::test_flag_addition
-  tags:
-    - test
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    
-feature-1_harmadik:
-  stage: feature-1
-  script:
-    - pip install pytest
-    - pytest test/test_minesweeper_flagging.py::test_flag_removal
-  tags:
-    - test
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    
-feature-1_negyedik:
-  stage: feature-1
-  script:
-    - pip install pytest
-    - pytest test/test_minesweeper_flagging.py::test_flag_invalid_then_valid
-  tags:
-    - test
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    
-feature-1_otodik:
-  stage: feature-1
-  script:
-    - pip install pytest
-    - pytest test/test_minesweeper_flagging.py::test_check_win_condition_false
-  tags:
-    - test
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    
-feature-1_hatodik:
-  stage: feature-1
-  script:
-    - pip install pytest
-    - pytest test/test_minesweeper_flagging.py::test_check_win_condition_true
-  tags:
-    - test
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    
-feature-1_hetedik:
-  stage: feature-1
-  script:
-    - pip install pytest
-    - pytest test/test_minesweeper_flagging.py::test_reveal_all
-  tags:
-    - test
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    
-feature-2_elso:
-  stage: feature-2
-  script:
-    - pip install pytest
-    - pytest test/test_minesweeper_undo.py::test_get_user_move
-  tags:
-    - test
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    
-feature-2_masodik:
-  stage: feature-2
-  script:
-    - pip install pytest
-    - pytest test/test_minesweeper_undo.py::test_get_user_move_undo_after_invalid_input
-  tags:
-    - test
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    
-feature-2_harmadik:
-  stage: feature-2
-  script:
-    - pip install pytest
-    - pytest test/test_minesweeper_undo.py::test_game_loop_undo
-  tags:
-    - test
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  feature_1_elso:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependency
+        run: pip install pytest
+
+      - name: Run test_display_uncovered_field
+        run: |
+          mkdir -p logs
+          pytest test/test_minesweeper_flagging.py::test_display_uncovered_field | tee logs/display_uncovered_field.log
+
+      - name: Upload display_uncovered_field log
+        uses: actions/upload-artifact@v4
+        with:
+          name: display-uncovered-field-log
+          path: logs/display_uncovered_field.log
+          retention-days: 14
+
+  feature_1_masodik:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependency
+        run: pip install pytest
+
+      - name: Run test_flag_addition
+        run: pytest test/test_minesweeper_flagging.py::test_flag_addition
+
+  feature_1_harmadik:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependency
+        run: pip install pytest
+
+      - name: Run test_flag_removal
+        run: pytest test/test_minesweeper_flagging.py::test_flag_removal
+
+  feature_1_negyedik:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependency
+        run: pip install pytest
+
+      - name: Run test_flag_invalid_then_valid
+        run: pytest test/test_minesweeper_flagging.py::test_flag_invalid_then_valid
+
+  feature_1_otodik:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependency
+        run: pip install pytest
+
+      - name: Run test_check_win_condition_false
+        run: pytest test/test_minesweeper_flagging.py::test_check_win_condition_false
+
+  feature_1_hatodik:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependency
+        run: pip install pytest
+
+      - name: Run test_check_win_condition_true
+        run: pytest test/test_minesweeper_flagging.py::test_check_win_condition_true
+
+  feature_1_hetedik:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependency
+        run: pip install pytest
+
+      - name: Run test_reveal_all
+        run: pytest test/test_minesweeper_flagging.py::test_reveal_all
+
+  feature_2_elso:
+    runs-on: ubuntu-latest
+    needs:
+      - feature_1_elso
+      - feature_1_masodik
+      - feature_1_harmadik
+      - feature_1_negyedik
+      - feature_1_otodik
+      - feature_1_hatodik
+      - feature_1_hetedik
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependency
+        run: pip install pytest
+
+      - name: Run test_get_user_move
+        run: pytest test/test_minesweeper_undo.py::test_get_user_move
+
+  feature_2_masodik:
+    runs-on: ubuntu-latest
+    needs:
+      - feature_1_elso
+      - feature_1_masodik
+      - feature_1_harmadik
+      - feature_1_negyedik
+      - feature_1_otodik
+      - feature_1_hatodik
+      - feature_1_hetedik
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependency
+        run: pip install pytest
+
+      - name: Run test_get_user_move_undo_after_invalid_input
+        run: pytest test/test_minesweeper_undo.py::test_get_user_move_undo_after_invalid_input
+
+  feature_2_harmadik:
+    runs-on: ubuntu-latest
+    needs:
+      - feature_1_elso
+      - feature_1_masodik
+      - feature_1_harmadik
+      - feature_1_negyedik
+      - feature_1_otodik
+      - feature_1_hatodik
+      - feature_1_hetedik
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependency
+        run: pip install pytest
+
+      - name: Run test_game_loop_undo
+        run: pytest test/test_minesweeper_undo.py::test_game_loop_undo
